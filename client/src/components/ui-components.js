@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 
 export const Container = styled.div`
@@ -21,6 +22,16 @@ export const Container = styled.div`
         : null
     )}
 `;
+
+/** Heading Text */
+
+export const TitleH1 = styled.h1`
+    font-size: 1.6rem;
+`;
+
+export const TitleH2 = styled.h2`
+    font-size: 1rem;
+`
 
 export const Logo  = styled.h1`
     margin: 0;
@@ -71,7 +82,13 @@ export const Button = styled.button`
 `;
 
 export const ClearFix = styled.div`
-    padding: 5px 0;
+    
+    ${props => (props.px ?
+        `
+        padding: ${props.px}
+        `
+        : `padding: 5px 0;`
+    )}
 `;
 
 export const Icon = styled.i`
@@ -86,7 +103,7 @@ export const TextField = styled.input`
     border-radius: 5px;
     padding: 10px;
     :focus {
-        border: 1px solid #339AF0;
+        border: 2px solid #339AF0;
     }
 `; 
 
@@ -101,4 +118,23 @@ export const Label = styled.label`
 export const TextFieldWrapper = styled.div`
     position: relative;
     margin-bottom: 30px;
+    ${props => (props.width ?
+        `
+        width: ${props.width};
+        `
+        : null
+    )}
+`;
+
+export const Divider = styled.div`
+    display: block;
+    content: ' ';
+    border-bottom: 1px solid #ccc;
+    width: 100%;
+`;
+
+export const Grid = styled.div`
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 `;

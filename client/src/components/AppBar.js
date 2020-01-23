@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Container, Logo } from './Utils';
+import { Container, Logo } from './ui-components';
 
 const Wrapper = styled.div`
     position: fixed;

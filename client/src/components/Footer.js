@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Logo } from './Utils';
+import { Logo } from './ui-components';
 
 const Wrapper = styled.div`
     display: block;
