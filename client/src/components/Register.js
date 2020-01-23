@@ -25,7 +25,8 @@ const FormWrapper = styled.form`
 
 const useStyle = {
     select: {
-        width: '150px'
+        width: '160px',
+        display: 'block',
     }
 }
 

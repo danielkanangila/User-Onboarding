@@ -208,18 +208,24 @@ const SelectWrapper = styled.div`
     display: block;
     border: 1px solid #ccc;
     border-radius: 5px;
-    background-color: red;
 
-    /* ::after {
-        content: '\25BC';
+    :after {
         position: absolute;
         top: 0;
         right: 0;
         bottom: 0;
-        padding: 0 16px;
-        background-color: #eeeeee;
+        content: "\\25BC";
+        font-size: 12px;
+        padding: 8.5px 15px;
+        border-left: 1px solid #ccc;
+        color: grey;
         pointer-events: none;
-    } */
+        transition: all .3s;
+    } 
+
+    :hover::after {
+        background-color: #eee;
+    }
 `
 
 export const Option = styled.option`
@@ -233,7 +239,7 @@ export const SelectField = styled.select`
     appearance: none; 
     width: 100%;
     height: 100%;
-    padding: 10px;
+    padding: 10px 15px 10px 10px;
     ::-ms-expand {
         display: none;
     }
