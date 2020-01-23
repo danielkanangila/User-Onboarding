@@ -14,7 +14,7 @@ function App() {
     <div>
       <AppBar />
       <Container ___class="app">
-        <Route exact path="/" component={props => <Register {...props} data={ userRoles, stateList } />} />
+        <Route exact path="/" component={props => <Register {...props} data={{userRoles, stateList }} />} />
         <Route path="/login" component={props => <Login {...props} />} />
       </Container>
       <Footer />

@@ -19,9 +19,13 @@ p {
   padding: 0;
 }
 
-input {
+input, select, option {
   background: none;
   border: none;
   outline: none;
   cursor: text;
+}
+
+select, option {
+  cursor: pointer;
 }

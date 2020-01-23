@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useFormik } from 'formik';
 import { 
@@ -8,10 +8,12 @@ import {
     Button,
     Icon,
     ClearFix,
-    TitleH1,
-    TitleH2,
+    Heading,
     Divider,
-    Grid
+    Grid,
+    Checkbox,
+    Select,
+    Option
 } from './ui-components';
 
 const FormWrapper = styled.form`
@@ -22,12 +24,20 @@ const FormWrapper = styled.form`
 `
 
 const useStyle = {
+    select: {
+        width: '150px'
+    }
 }
 
 const RegisterForm = (props) => {
 
-    const [states, setStates] = useState([]);
     const [roles, setRoles] = useState([]);
+    const [stateList, setStateList] = useState([]);
+
+    useEffect(() => {
+        setRoles(["Select user role", ...props.data.userRoles]);
+        setStateList([{name: "Sate", abbreviation: ""}, ...props.data.stateList])
+    }, [])
 
     const classes = useStyle;
 
@@ -57,83 +67,103 @@ const RegisterForm = (props) => {
 
     return(
         <FormWrapper onSubmit={formik.handleSubmit}>
-            <TitleH1 component="h1">New User</TitleH1>
-                <TextFieldWrapper>
-                    <Label htmlFor="firstName">First Name</Label>
-                    <TextField 
-                        name="firstName"
-                        value={formik.values.firstName}
-                        type="text"
-                        placeholder="Dan"
-                        onChange={formik.handleChange} />
-                </TextFieldWrapper>
-                <TextFieldWrapper>
-                    <Label htmlFor="lastName">Last Name</Label>
-                    <TextField 
-                        name="lastName"
-                        value={formik.values.lastName}
-                        type="text"
-                        placeholder="Joe"
-                        onChange={formik.handleChange} />
-                </TextFieldWrapper>
-                <TextFieldWrapper>
-                    <Label htmlFor="email">Email</Label>
-                    <TextField 
-                        name="email"
-                        value={formik.values.email}
-                        type="email"
-                        placeholder="dan.joe@example.com"
-                        onChange={formik.handleChange} />
-                </TextFieldWrapper>
-                <TextFieldWrapper>
-                    <Label htmlFor="password">Password</Label>
-                    <TextField 
-                        name="password"
-                        value={formik.values.password}
-                        type="password"
-                        placeholder="*******"
-                        onChange={formik.handleChange} />
-                </TextFieldWrapper>
-                <TextFieldWrapper>
-                    <Label htmlFor="confirmPassword">Confirm your password</Label>
-                    <TextField 
-                        name="confirmPassword"
-                        value={formik.values.confirmPassword}
-                        type="password"
-                        placeholder="*******"
-                        onChange={formik.handleChange} />
-                </TextFieldWrapper>
-                <ClearFix px="20px" />
-                <Divider />
-                <ClearFix />
-                <TitleH2>Contacts</TitleH2>
-                <TextFieldWrapper>
-                    <Label htmlFor="address1">Address line 1</Label>
-                    <TextField 
-                        name="address1"
-                        value={formik.values.address1}
-                        type="text"
-                        placeholder="Ex. 1108 Martin Dr, NY 21059"
-                        onChange={formik.handleChange} />
-                </TextFieldWrapper>
-                <TextFieldWrapper>
-                    <Label htmlFor="address2">Address line 2</Label>
-                    <TextField 
-                        name="address2"
-                        value={formik.values.address2}
-                        type="text"
-                        placeholder="Ex. 1109 Hwy 199 St, MI 28005"
-                        onChange={formik.handleChange} />
-                </TextFieldWrapper>
-                <TextFieldWrapper width="150px">
-                    <Label htmlFor="phone">phone</Label>
-                    <TextField 
-                        name="phone"
-                        value={formik.values.phone}
-                        type="text"
-                        placeholder="(704) - 889 - 4536"
-                        onChange={formik.handleChange} />
-                </TextFieldWrapper>
+            <Heading component="h1">New User</Heading>
+            <TextFieldWrapper>
+                <Label htmlFor="firstName">First Name</Label>
+                <TextField 
+                    name="firstName"
+                    value={formik.values.firstName}
+                    type="text"
+                    placeholder="Dan"
+                    onChange={formik.handleChange} />
+            </TextFieldWrapper>
+            <TextFieldWrapper>
+                <Label htmlFor="lastName">Last Name</Label>
+                <TextField 
+                    name="lastName"
+                    value={formik.values.lastName}
+                    type="text"
+                    placeholder="Joe"
+                    onChange={formik.handleChange} />
+            </TextFieldWrapper>
+            <TextFieldWrapper>
+                <Label htmlFor="email">Email</Label>
+                <TextField 
+                    name="email"
+                    value={formik.values.email}
+                    type="email"
+                    placeholder="dan.joe@example.com"
+                    onChange={formik.handleChange} />
+            </TextFieldWrapper>
+            <TextFieldWrapper>
+                <Label htmlFor="password">Password</Label>
+                <TextField 
+                    name="password"
+                    value={formik.values.password}
+                    type="password"
+                    placeholder="*******"
+                    onChange={formik.handleChange} />
+            </TextFieldWrapper>
+            <TextFieldWrapper>
+                <Label htmlFor="confirmPassword">Confirm your password</Label>
+                <TextField 
+                    name="confirmPassword"
+                    value={formik.values.confirmPassword}
+                    type="password"
+                    placeholder="*******"
+                    onChange={formik.handleChange} />
+            </TextFieldWrapper>
+            <ClearFix px="0px" />
+            <div style={classes.select}>
+                <Label>User Role</Label>
+                <Select>
+                    {roles.map((role, index) => <Option key={index} value={role}>
+                        {`${role[0].toUpperCase()}${role.slice(1)}`}
+                    </Option>)}
+                </Select>
+            </div>
+
+            <ClearFix px="20px" />
+
+            <Heading component="h2">Contacts</Heading>
+            <TextFieldWrapper>
+                <Label htmlFor="address1">Address line 1</Label>
+                <TextField 
+                    name="address1"
+                    value={formik.values.address1}
+                    type="text"
+                    placeholder="Ex. 1108 Martin Dr, NY 21059"
+                    onChange={formik.handleChange} />
+            </TextFieldWrapper>
+            <TextFieldWrapper>
+                <Label htmlFor="address2">Address line 2</Label>
+                <TextField 
+                    name="address2"
+                    value={formik.values.address2}
+                    type="text"
+                    placeholder="Ex. 1109 Hwy 199 St, MI 28005"
+                    onChange={formik.handleChange} />
+            </TextFieldWrapper>
+            <TextFieldWrapper width="150px">
+                <Label htmlFor="phone">phone</Label>
+                <TextField 
+                    name="phone"
+                    value={formik.values.phone}
+                    type="text"
+                    placeholder="(704) - 889 - 4536"
+                    onChange={formik.handleChange} />
+            </TextFieldWrapper>
+            <ClearFix px="15px" />
+            <Checkbox>
+                <a href="/#">
+                    Terms of Service
+                </a>
+            </Checkbox>
+            <ClearFix px="8px" />
+
+            <Button type="primary" role="submit">
+                Register
+            </Button>
         </FormWrapper>
     )
 }
