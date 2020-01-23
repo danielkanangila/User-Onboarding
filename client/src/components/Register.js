@@ -18,7 +18,7 @@ import {
 
 const FormWrapper = styled.form`
     @media (min-width: 875px) {
-        width: 45%;
+        width: 46%;
         margin: 0 auto;
     }
 `
@@ -27,6 +27,10 @@ const useStyle = {
     select: {
         width: '160px',
         display: 'block',
+    },
+    selectState: {
+        width: '38%',
+        margin: '0 12px 0px 32px'
     }
 }
 
@@ -37,7 +41,7 @@ const RegisterForm = (props) => {
 
     useEffect(() => {
         setRoles(["Select user role", ...props.data.userRoles]);
-        setStateList([{name: "Sate", abbreviation: ""}, ...props.data.stateList])
+        setStateList([{name: "Select state", abbreviation: ""}, ...props.data.stateList])
     }, [])
 
     const classes = useStyle;
@@ -145,8 +149,36 @@ const RegisterForm = (props) => {
                     placeholder="Ex. 1109 Hwy 199 St, MI 28005"
                     onChange={formik.handleChange} />
             </TextFieldWrapper>
+            <Grid style={classes.addressGird}>
+                <TextFieldWrapper width="33%">
+                    <Label htmlFor="city">City</Label>
+                    <TextField 
+                        name="city"
+                        value={formik.values.city}
+                        type="text"
+                        placeholder="Ex. Mebane"
+                        onChange={formik.handleChange} />
+                </TextFieldWrapper>
+                <div style={classes.selectState}>
+                    <Label>State</Label>
+                    <Select>
+                        {stateList.map((state, index) => <Option key={index} value={state.abbreviation}>
+                        {state.abbreviation}{state.abbreviation ? ' - ' : ''}{state.name}
+                        </Option>)}
+                    </Select>
+                </div>
+                <TextFieldWrapper width="20%">
+                    <Label htmlFor="zipCode">Zip code</Label>
+                    <TextField 
+                        name="zupCode"
+                        value={formik.values.zipCode}
+                        type="text"
+                        placeholder="00000"
+                        onChange={formik.handleChange} />
+                </TextFieldWrapper>
+            </Grid>
             <TextFieldWrapper width="150px">
-                <Label htmlFor="phone">phone</Label>
+                <Label htmlFor="phone">phone (US only)</Label>
                 <TextField 
                     name="phone"
                     value={formik.values.phone}
