@@ -196,7 +196,11 @@ const Checkmark = styled.span`
 
 export const Checkbox = (props => (
     <CheckboxContainer>{props.children}
-        <CheckboxInput type="checkbox" />
+        <CheckboxInput
+            id={props.field}
+            onChange={props.formik.handleChange} 
+            value={props.formik[props.field]} 
+            type="checkbox" />
         <Checkmark></Checkmark>
     </CheckboxContainer>
 ));
@@ -246,9 +250,17 @@ export const SelectField = styled.select`
 `;
 export const Select = (props => (
     <SelectWrapper>
-        <SelectField>
+        <SelectField id={props.field} value={props.formik.values[props.field]} onChange={props.formik.handleChange}>
             {props.children}
         </SelectField>
     </SelectWrapper>
 ))
 
+/** Errors */
+export const Error = styled.span`
+    display: block;
+    font-size: 0.85rem;
+    color: red;
+    margin-left: 5px;
+    margin-bottom: 5px;
+`;

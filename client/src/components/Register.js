@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useFormik } from 'formik';
+import * as Yup from 'yup';
 import { 
     TextField, 
     Label, 
@@ -13,7 +14,8 @@ import {
     Grid,
     Checkbox,
     Select,
-    Option
+    Option,
+    Error
 } from './ui-components';
 
 const FormWrapper = styled.form`
@@ -31,6 +33,9 @@ const useStyle = {
     selectState: {
         width: '38%',
         margin: '0 12px 0px 32px'
+    },
+    errors: {
+        marginTop: '37px'
     }
 }
 
@@ -61,8 +66,46 @@ const RegisterForm = (props) => {
             zipCode: "",
             phone: "",
             role: "",
-            isTSChecked: false,
+            termOfService: false,
         },
+
+        validationSchema: Yup.object().shape({
+            firstName: Yup.string()
+                .min(3)
+                .required(),
+            lastName: Yup.string()
+                .min(3)
+                .required(),
+            email: Yup.string()
+                .email()
+                .required(),
+            password: Yup.string()
+                .min(8)
+                .required(),
+            confirmPassword: Yup.string()
+                .when('password', {
+                    is: value => (value && value.length > 0 ? true : false),
+                    then: Yup.string().oneOf(
+                        [Yup.ref('password')],
+                        "Both password must be the same."
+                    )
+                })
+                .required(),
+            address1: Yup.string()
+                .min(8)
+                .required(),
+            city: Yup.string()
+                .required(),
+            state: Yup.string()
+                .required(),
+            zipCode: Yup.number()
+                .max(5)
+                .required(),
+            role: Yup.string()
+                .required(),
+            termOfService: Yup.string()
+                .required(),
+        }),
     
         handleSubmit(values) {
             console.log(values)
@@ -75,6 +118,11 @@ const RegisterForm = (props) => {
             <Heading component="h1">New User</Heading>
             <TextFieldWrapper>
                 <Label htmlFor="firstName">First Name</Label>
+                {formik.touched.firstName && formik.errors.firstName &&
+                    <Error>
+                        {formik.errors.firstName}
+                    </Error>
+                }
                 <TextField 
                     name="firstName"
                     value={formik.values.firstName}
@@ -84,6 +132,11 @@ const RegisterForm = (props) => {
             </TextFieldWrapper>
             <TextFieldWrapper>
                 <Label htmlFor="lastName">Last Name</Label>
+                {formik.touched.lastName && formik.errors.lastName &&
+                    <Error>
+                        {formik.errors.lastName}
+                    </Error>
+                }
                 <TextField 
                     name="lastName"
                     value={formik.values.lastName}
@@ -93,6 +146,11 @@ const RegisterForm = (props) => {
             </TextFieldWrapper>
             <TextFieldWrapper>
                 <Label htmlFor="email">Email</Label>
+                {formik.touched.email && formik.errors.email &&
+                    <Error>
+                        {formik.errors.email}
+                    </Error>
+                }
                 <TextField 
                     name="email"
                     value={formik.values.email}
@@ -102,6 +160,11 @@ const RegisterForm = (props) => {
             </TextFieldWrapper>
             <TextFieldWrapper>
                 <Label htmlFor="password">Password</Label>
+                {formik.touched.password && formik.errors.password &&
+                    <Error>
+                        {formik.errors.password}
+                    </Error>
+                }
                 <TextField 
                     name="password"
                     value={formik.values.password}
@@ -111,6 +174,11 @@ const RegisterForm = (props) => {
             </TextFieldWrapper>
             <TextFieldWrapper>
                 <Label htmlFor="confirmPassword">Confirm your password</Label>
+                {formik.touched.confirmPassword && formik.errors.confirmPassword &&
+                    <Error>
+                        {formik.errors.confirmPassword}
+                    </Error>
+                }
                 <TextField 
                     name="confirmPassword"
                     value={formik.values.confirmPassword}
@@ -121,7 +189,12 @@ const RegisterForm = (props) => {
             <ClearFix px="0px" />
             <div style={classes.select}>
                 <Label>User Role</Label>
-                <Select>
+                {formik.touched.role && formik.errors.role &&
+                    <Error>
+                        {formik.errors.role}
+                    </Error>
+                }
+                <Select field="role" formik={formik}>
                     {roles.map((role, index) => <Option key={index} value={role}>
                         {`${role[0].toUpperCase()}${role.slice(1)}`}
                     </Option>)}
@@ -133,6 +206,11 @@ const RegisterForm = (props) => {
             <Heading component="h2">Contacts</Heading>
             <TextFieldWrapper>
                 <Label htmlFor="address1">Address line 1</Label>
+                {formik.touched.address1 && formik.errors.address1 &&
+                    <Error>
+                        {formik.errors.address1}
+                    </Error>
+                }
                 <TextField 
                     name="address1"
                     value={formik.values.address1}
@@ -158,23 +236,38 @@ const RegisterForm = (props) => {
                         type="text"
                         placeholder="Ex. Mebane"
                         onChange={formik.handleChange} />
+                    {formik.touched.city && formik.errors.city &&
+                        <Error style={classes.errors}>
+                            {formik.errors.city}
+                        </Error>
+                    }
                 </TextFieldWrapper>
                 <div style={classes.selectState}>
                     <Label>State</Label>
-                    <Select>
+                    <Select field="state" formik={formik}>
                         {stateList.map((state, index) => <Option key={index} value={state.abbreviation}>
                         {state.abbreviation}{state.abbreviation ? ' - ' : ''}{state.name}
                         </Option>)}
                     </Select>
+                    {formik.touched.state && formik.errors.state &&
+                        <Error>
+                            {formik.errors.state}
+                        </Error>
+                    }
                 </div>
                 <TextFieldWrapper width="20%">
                     <Label htmlFor="zipCode">Zip code</Label>
                     <TextField 
-                        name="zupCode"
+                        name="zipCode"
                         value={formik.values.zipCode}
                         type="text"
                         placeholder="00000"
                         onChange={formik.handleChange} />
+                    {formik.touched.zipCode && formik.errors.zipCode &&
+                        <Error style={classes.errors}>
+                            {formik.errors.zipCode}
+                        </Error>
+                    }
                 </TextFieldWrapper>
             </Grid>
             <TextFieldWrapper width="150px">
@@ -187,7 +280,7 @@ const RegisterForm = (props) => {
                     onChange={formik.handleChange} />
             </TextFieldWrapper>
             <ClearFix px="15px" />
-            <Checkbox>
+            <Checkbox field="termOfService" formik={formik}>
                 <a href="/#">
                     Terms of Service
                 </a>
