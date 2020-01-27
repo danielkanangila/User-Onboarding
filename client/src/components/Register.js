@@ -7,10 +7,8 @@ import {
     Label, 
     TextFieldWrapper, 
     Button,
-    Icon,
     ClearFix,
     Heading,
-    Divider,
     Grid,
     Checkbox,
     Select,
@@ -98,7 +96,7 @@ const RegisterForm = (props) => {
                 .required(),
             state: Yup.string()
                 .required(),
-            zipCode: Yup.number()
+            zipCode: Yup.string()
                 .max(5)
                 .required(),
             role: Yup.string()
@@ -107,8 +105,9 @@ const RegisterForm = (props) => {
                 .required(),
         }),
     
-        handleSubmit(values) {
-            console.log(values)
+        onSubmit: values => {
+            props.onRegister(values)
+            formik.resetForm();
         },
     
     });
