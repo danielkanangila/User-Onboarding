@@ -9,6 +9,7 @@ const Wrapper = styled.div`
     border-bottom: 1px solid #ccc;
     background: #ffff;
     z-index: 1000;
+    box-shadow: 1px 1px 3px 1px rgba(0,0,0,0.5)
 `
 
 const MenuItemIcon = styled.div`

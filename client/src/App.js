@@ -35,7 +35,7 @@ function App(props) {
 
     if (hasUser) {
       setIsLogged(true);
-      setUser(user);
+      setUser(JSON.parse(user));
     } else {
       setIsLogged(false);
       setUser({});
@@ -48,10 +48,10 @@ function App(props) {
     <div>
       <AppBar isLogged={isLogged} />
       <Container ___class="app">
-        <Route exact path="/register" component={props => <Register onRegister={onRegister} {...props} data={{userRoles, stateList }} />} />
+        <Route exact path="/" component={props => <UserProfile {...props} user={user} />} />
+        <Route path="/register" component={props => <Register onRegister={onRegister} {...props} data={{userRoles, stateList }} />} />
         <Route path="/login" component={props => <Login {...props} />} />
         <Route path="/logout" component={props => <Logout {...props} />} />
-        <Route path="/" component={props => <UserProfile {...props} user={user} />} />
       </Container>
       <Footer />
     </div>
